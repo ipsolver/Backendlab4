@@ -16,17 +16,17 @@ $login = trim($data["login"]);
 $password = $data["password"];
 
 
-$stmt = $pdo->prepare("SELECT ID FROM users WHERE Login = ?");
-$stmt->execute([$login]);
+$req = $pdo->prepare("SELECT ID FROM users WHERE Login = ?");
+$req->execute([$login]);
 
-if ($stmt->fetch()) 
+if ($req->fetch()) 
 {
     echo json_encode(["success" => false, "message" => "Такий логін вже існує"]);
     exit;
 }
 
-$stmt = $pdo->prepare("INSERT INTO users (Name, Lastname, Login, Password) VALUES (?, ?, ?, ?)");
-$success = $stmt->execute([$name, $lastname, $login, $password]);
+$req = $pdo->prepare("INSERT INTO users (Name, Lastname, Login, Password) VALUES (?, ?, ?, ?)");
+$success = $req->execute([$name, $lastname, $login, $password]);
 
 if ($success) 
 {

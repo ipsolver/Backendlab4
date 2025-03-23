@@ -11,9 +11,9 @@ if (!isset($_GET['id']) || !isset($_SESSION['user']))
 
 $noteID = $_GET['id'];
 
-$stmt = $pdo->prepare("SELECT Title, Content FROM notes WHERE ID = ?");
-$stmt->execute([$noteID]);
-$note = $stmt->fetch(PDO::FETCH_ASSOC);
+$req = $pdo->prepare("SELECT Title, Content FROM notes WHERE ID = ?");
+$req->execute([$noteID]);
+$note = $req->fetch(PDO::FETCH_ASSOC);
 
 if (!$note) 
 {

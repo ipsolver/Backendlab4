@@ -14,9 +14,9 @@ if (!isset($_GET['id']))
 }
 
 $id = $_GET['id'];
-$stmt = $pdo->prepare("SELECT Name, Lastname, Login FROM users WHERE ID = ?");
-$stmt->execute([$id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$req = $pdo->prepare("SELECT Name, Lastname, Login FROM users WHERE ID = ?");
+$req->execute([$id]);
+$user = $req->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     die("Користувач не знайдений!");

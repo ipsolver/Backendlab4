@@ -7,9 +7,9 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT * FROM users WHERE Login = ?");
-$stmt->execute([$_SESSION['user']]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$req = $pdo->prepare("SELECT * FROM users WHERE Login = ?");
+$req->execute([$_SESSION['user']]);
+$user = $req->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) 
 {

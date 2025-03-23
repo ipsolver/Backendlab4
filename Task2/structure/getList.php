@@ -19,9 +19,9 @@ if (!$userID)
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT ID, Title, Content, Date FROM notes WHERE UserID = ?");
-$stmt->execute([$userID]);
-$notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$req = $pdo->prepare("SELECT ID, Title, Content, Date FROM notes WHERE UserID = ?");
+$req->execute([$userID]);
+$notes = $req->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($notes);
 ?>
