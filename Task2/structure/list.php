@@ -83,7 +83,7 @@ document.querySelector("#getNotes").addEventListener("click", async function()
         row.innerHTML = `
             <td>${note.ID}</td>
             <td>${note.Title}</td>
-            <td>${note.Content}</td>
+            <td>${note.Content.replace(/\n/g, "<br>")}</td>
             <td>
                 <button class="editor" data-id="${note.ID}">Редагувати</button>
                 <button class="delete" data-id="${note.ID}">Видалити</button>

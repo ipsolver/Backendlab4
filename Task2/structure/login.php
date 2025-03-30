@@ -2,29 +2,29 @@
 session_start();
 require "../DB/db.php";
 
-if (isset($_SESSION['user'])) 
+header('Content-Type: application/json');
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!isset($data["login"], $data["password"])) 
 {
-    header("Location: index.php");
-    exit();
+    echo json_encode(["success" => false, "message" => "Заповніть всі поля"]);
+    exit;
 }
+$login = trim($data["login"]);
+$password = $data["password"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") 
-{
-    $login=trim($_POST['login']);
-    $password = trim($_POST['password']);
 
-    $auth = $pdo->prepare("SELECT * FROM users WHERE (Login = :login and Password= :password)");
+    $auth = $pdo->prepare("SELECT * FROM users WHERE Login = :login AND Password = :password");
     $auth->execute(['login' => $login, 'password' => $password]);
     $user = $auth->fetch(PDO::FETCH_ASSOC);
 
     if ($user) 
     {
         $_SESSION['user'] = $user['Login'];
-        header("Location: ../index.php");
-        exit();
+        echo json_encode(["success" => true, "message" => "Успішний вхід!"]);
     } 
     else 
     {
-         header("Location: ../index.php");
+        echo json_encode(["success" => false, "message" => "Невірний логін або пароль"]);
     }
-}
+?>

@@ -57,8 +57,8 @@ $myid = $myid_req->fetchColumn();
 <?php if ($_SESSION['user']) : ?>
     <div id="actions">
         <button id="editProfile">Редагувати інформацію</button>
-        <a href="delete.php"><button>Видалити профіль</button></a>
-    </div>
+        <button id="deleteProfile">Видалити профіль</button>
+        </div>
 <?php endif; ?>
 
 <script>
@@ -87,7 +87,27 @@ document.getElementById('editProfile').addEventListener('click', function()
 {
     window.location.href = `edit.php?id=<?=$myid?>`;
 });
+document.getElementById("deleteProfile").addEventListener("click", async function() {
+    if (!confirm("Ви впевнені, що хочете видалити профіль?")) return;
 
+    let response = await fetch("delete.php", 
+    {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    });
+
+    let result = await response.json();
+
+    if (result.success) 
+    {
+        alert(result.message);
+        window.location.href = "../index.php";
+    } 
+    else 
+    {
+        alert(result.message || "Помилка видалення");
+    }
+});
 </script>
 
 <a href="../index.php">Назад</a>

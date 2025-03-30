@@ -4,14 +4,20 @@ require "../DB/db.php";
 
 if (!isset($_SESSION['user'])) 
 {
-    header("Location: index.php");
+    echo json_encode(["success" => false, "message" => "Користувач не авторизований"]);
     exit();
 }
 
-$del=$pdo->prepare("DELETE FROM users WHERE Login = ?");
-$del->execute([$_SESSION['user']]);
+$del = $pdo->prepare("DELETE FROM users WHERE Login = ?");
+$success = $del->execute([$_SESSION['user']]);
 
-echo "Профіль успішно видалено!";
-echo "<a href='../index.php'>На головну</a>";
-session_destroy();
-
+if ($success) 
+{
+    session_destroy();
+    echo json_encode(["success" => true, "message" => "Профіль успішно видалено!"]);
+} 
+else 
+{
+    echo json_encode(["success" => false, "message" => "Помилка при видаленні профілю"]);
+}
+?>

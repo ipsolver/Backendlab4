@@ -21,7 +21,7 @@ session_start();
 <?php else: ?>
 
     <h2>Вхід у систему</h2>
-    <form method="POST" action="structure/login.php">
+    <form id="logining">
     <label for="login">Логін:</label><br>
     <input type="text" id="login" name="login" required><br><br>
 
@@ -31,7 +31,39 @@ session_start();
     <button type="submit">Увійти</button>
 </form>
 <p>Незареєстровані? <a href="structure/register.php">Зареєструватися</a></p>
+<p id="message"></p>
 <?php endif; ?>
 
+<script>
+document.querySelector('#logining').addEventListener("submit", async function (event) 
+{
+    event.preventDefault();
+
+    let login = document.getElementById("login").value.trim();
+    let password = document.getElementById("password").value;
+    let message = document.getElementById("message");
+
+    let response = await fetch("structure/login.php", 
+    {
+        method: "POST",
+        headers: 
+            {
+                "Content-Type": "application/json"
+            },
+                body: JSON.stringify({login, password })
+    });
+
+    let result = await response.json();
+    if(result.success)
+    {
+        alert("Вхід виконано!");
+        window.location.href = "index.php";
+    }
+    message.textContent = result.message;
+
+
+})
+
+</script>
 </body>
 </html>
