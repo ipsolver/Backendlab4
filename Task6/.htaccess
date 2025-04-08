@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(.*)$ traffic_logger.php [L]
